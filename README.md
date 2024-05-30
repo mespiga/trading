@@ -1,6 +1,13 @@
 # Trading tools and algorithms
 Some trading tools implemented with Python > 3.9
 
+## Disclaimer
+Trading leveraged products carries a high degree of risk and you could lose more than your initial deposit. Any code,opinions, chats, messages, news, research, analyses, prices, or other information contained on this repository are provided as general market information for educational and entertainment purposes only, and do not constitute investment advice neither investment assurance. The code in this repository should not be relied upon as a substitute for extensive independent market research before making your actual trading decisions.
+
+THE OWNER OF THIS REPOSITORY will not accept liability for any loss or damage, including without limitation any loss of profit, which may arise directly or indirectly from use of THE CODE SOFTWARE WITHIN THIS REPOSITORY.
+
+THE OWNER OF THIS REPOSITORY do not recommend the use of technical analysis as a sole means of trading decisions. THE OWNER OF THIS REPOSITORY do not recommend making hurried trading decisions. You should always understand that PAST PERFORMANCE IS NOT NECESSARILY INDICATIVE OF FUTURE RESULTS.
+
 ## Bracket Order Tool
 ### Description
 * This is a graphic tool that enables you to create strock orders with stop loss and sell strike limits.
