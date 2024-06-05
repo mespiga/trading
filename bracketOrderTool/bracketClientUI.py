@@ -22,9 +22,8 @@
 from guizero import App, Text, Box, PushButton, TextBox
 import sys, os, time
 from datetime import datetime
-sys.path.append(os.path.abspath("model"))
-from OrderDatabase import OrderDatabase
-from stopLoss import commitOrder
+from model.OrderDatabase import OrderDatabase
+from lib.stopLoss import commitOrder
 import alpaca_trade_api as tradeapi
 
 import logging
