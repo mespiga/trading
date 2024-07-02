@@ -46,7 +46,6 @@ import alpaca_trade_api as tradeapi
 
 api = tradeapi.REST()
 
-# logging.basicConfig(filename='/home/ec2-user/projects/backend/logs/2real-'+ symbolOrder +'-' +datetime.now().strftime("%d-%m-%Y_%H-%M-%S")+ '.log', encoding='utf-8', level=logging.INFO)
 logging.basicConfig( level=logging.INFO)
 
 logging.basicConfig(format='%(asctime)s %(message)s')
