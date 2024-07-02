@@ -67,7 +67,7 @@ def getPositions():
 
     # Print the quantity of shares for each position.
     for position in portfolio:
-        print("{} shares of {} | P&L {} | Average cost per stock {} | Stock Current Price {} | Cost when buying {} | Current value {}".
+        logging.info("{} shares of {} | P&L {} | Average cost per stock {} | Stock Current Price {} | Cost when buying {} | Current value {}".
             format(position.qty, position.symbol, position.unrealized_pl, position.avg_entry_price, position.current_price, position.cost_basis, position.market_value))
     
 
@@ -122,7 +122,7 @@ def getAvailableCash():
 def test():
     symbol = 'COIN'
     profit_price = '260'
-    loss_price = '240'
+    loss_price = '220'
     quant = 1
     extended_hours = None
 
@@ -132,19 +132,20 @@ def test():
     db = OrderDatabase()
     db.create_order(order_db)
 
-    print('--------------- Main  --------------------')
-    print(main_order.symbol)
-    print(main_order.id)
-    print(main_order.qty)
-    print(main_order.status)
-    print('--------------- Profit  --------------------')
-    print(main_order.legs[0].side)
-    print(main_order.legs[0].id)
-    print(main_order.legs[0].limit_price)
-    print(main_order.legs[0].status)
+    logging.info('--------------- Main  --------------------')
+    logging.info(main_order.symbol)
+    logging.info(main_order.id)
+    logging.info(main_order.qty)
+    logging.info(main_order.status)
+    logging.info('--------------- Profit  --------------------')
+    logging.info(main_order.legs[0].side)
+    logging.info(main_order.legs[0].id)
+    logging.info(main_order.legs[0].limit_price)
+    logging.info(main_order.legs[0].status)
 
-    print('--------------- Loss  --------------------')
-    print(main_order.legs[1].side)
-    print(main_order.legs[1].id)
-    print(main_order.legs[1].stop_price)
-    print(main_order.legs[1].status)
+    logging.info('--------------- Loss  --------------------')
+    logging.info(main_order.legs[1].side)
+    logging.info(main_order.legs[1].id)
+    logging.info(main_order.legs[1].stop_price)
+    logging.info(main_order.legs[1].status)
+
