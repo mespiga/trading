@@ -1,6 +1,8 @@
 */.venv
 */.python-version
+bracketOrderTool/lib/__pycache__/*
 .DS_Store
 __pycache__/
 model/__pycache__/
-*/lib/__pycache__/
+bracketOrderTool/lib/__pycache__/
+bracketOrderTool/path/

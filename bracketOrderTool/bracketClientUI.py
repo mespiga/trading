@@ -23,8 +23,9 @@ from guizero import App, Text, Box, PushButton, TextBox
 import sys, os, time
 from datetime import datetime
 from model.OrderDatabase import OrderDatabase
-from lib.stopLoss import commitOrder
+from lib.stopLoss import commitOrder, isPreMarketOpen, isPostMarketOpen, isMarketOpen, isAfterHoursOpen
 import alpaca_trade_api as tradeapi
+import requests
 
 import logging
 logging.basicConfig( level=logging.CRITICAL)
@@ -38,6 +39,8 @@ texto_estrelas   = []
 colors           = ["#20ff00", "#228b22", "#00ff00", "#228b22", "#00ff00"]
 app = App(layout="grid", width=1400, height=500, bg="#feffa3")
 db = OrderDatabase()
+extendedHours = ''
+checkMarketTimer = 10000
 
 def fetchOrders():
     order_content = []
@@ -52,9 +55,12 @@ def fetchOrders():
             return []
     return order_content
 
+def drawExtendedHoursNotice():
+    global extendedHours, app
+    extendedHours = Text(app, text="Market Open", grid=[0,0], align="left")
 
 def drawBracketForm(): 
-    global app
+    global app, extendedHours
     # Create Bracket order form
     symbol = Text(app, text="Symbol", grid=[0,0], align="left")
     symbolVal = TextBox(app, text="", grid=[1,0])
@@ -72,16 +78,21 @@ def drawBracketForm():
     limitProfitVal = TextBox(app, text="", grid=[7,0])
     limitProfitVal.text_color = "black"
 
-    extended_hours = None # bracket orders do not support extended hours trading yet
+    extended_hours = isAfterHoursOpen()
 
     bracket_order_button = PushButton(app, text="Submit Bracket Order", grid=[11,0], command=bracket_order, args=[symbolVal, qtyVal, stopLossVal, limitProfitVal, extended_hours])
     bracket_order_button.bg = "Orange"
 
     new_line = Text(app, text="", grid=[0,1,11,1], align="left")
 
+    # Extended hours
+    extendedHours = Text(app, text="Loading...", grid=[0,1], align="left")
+    extendedHours.repeat(checkMarketTimer, counter)
+
     PushButton(app, text="Refresh Table", grid=[0,2], command=refreshTableContent)
 
     new_line = Text(app, text="", grid=[0,3,11,1], align="left")
+
 
 def drawTableHeader(): 
     global app
@@ -142,6 +153,8 @@ def cleanTableContent():
     drawBracketForm()
     drawTableHeader()
     app.display()
+
+
 
 def refreshTableContent():
     global app
@@ -286,4 +299,16 @@ def validateNumber(num):
         app.warn("Uh oh!", num + " is not a number. Valid examples are 20.3 or 20")
         return False
     
+def counter():
+    global extendedHours, app
+
+    if(isPreMarketOpen()):
+        extendedHours.value = "Pre-Market Open"
+    elif(isPostMarketOpen()):
+        extendedHours.value = "Post-Market Open"
+    elif(isMarketOpen()):
+        extendedHours.value = "Market Open"
+    else:
+        extendedHours.value = "Market Close"
+
 draw()

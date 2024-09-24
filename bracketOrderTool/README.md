@@ -50,3 +50,5 @@ You should have received a copy of the GNU General Public License along with tra
 
 #### Copyright 2024 to the author Miguel Espiga. All Rights Reserved
 
+helper:
+pkill -9 -f bracketClient

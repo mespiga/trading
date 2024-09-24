@@ -46,6 +46,8 @@ import alpaca_trade_api as tradeapi
 
 api = tradeapi.REST()
 
+trading_hours_token="sdZRsMb34qMYFuFtXxmqtOO5EfvsbzyMHa96ugkkd75e7b51"
+
 logging.basicConfig( level=logging.INFO)
 
 logging.basicConfig(format='%(asctime)s %(message)s')
@@ -54,12 +56,38 @@ logging.basicConfig(format='%(asctime)s %(message)s')
 ############################################################
 ############################################################
 
+def isAfterHoursOpen():
+    if(isPreMarketOpen()):
+        return True
+    elif(isPostMarketOpen()):
+        return True
+    else:
+        return False
+
 def isMarketOpen():
     clock = api.get_clock()
     if clock.is_open:
         return True
     else:
         return False
+
+def isPreMarketOpen():
+    date = datetime.today().strftime('%Y-%m-%d')
+   
+    d = requests.get("https://api.tradinghours.com/v3/markets/hours?fin_id=us.nyse&api_token="+trading_hours_token+"&date="+date).json()
+    if("Pre-Trading Session" in d['data']['schedule'][0]['phase_type']):
+        if("Closed" in d['data']['schedule'][0]['status']):
+            return False
+    return True
+
+def isPostMarketOpen():
+    date = datetime.today().strftime('%Y-%m-%d')
+   
+    d = requests.get("https://api.tradinghours.com/v3/markets/hours?fin_id=us.nyse&api_token="+trading_hours_token+"&date="+date).json()
+    if("Post-Trading Session" in d['data']['schedule'][5]['phase_type']):
+        if("Closed" in d['data']['schedule'][5]['status']):
+            return False
+    return True
     
 def getPositions():
     # Get a list of all of our positions.
