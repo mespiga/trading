@@ -57,9 +57,9 @@ logging.basicConfig(format='%(asctime)s %(message)s')
 ############################################################
 
 def isAfterHoursOpen():
-    if(isPreMarketOpen()):
-        return True
-    elif(isPostMarketOpen()):
+    date = datetime.today().strftime('%Y-%m-%d')
+    d = requests.get("https://api.tradinghours.com/v3/markets/hours?fin_id=us.nyse&api_token="+trading_hours_token+"&date="+date).json()
+    if(d['data']['is_open'] and not isMarketOpen()):
         return True
     else:
         return False
@@ -70,24 +70,6 @@ def isMarketOpen():
         return True
     else:
         return False
-
-def isPreMarketOpen():
-    date = datetime.today().strftime('%Y-%m-%d')
-   
-    d = requests.get("https://api.tradinghours.com/v3/markets/hours?fin_id=us.nyse&api_token="+trading_hours_token+"&date="+date).json()
-    if("Pre-Trading Session" in d['data']['schedule'][0]['phase_type']):
-        if("Closed" in d['data']['schedule'][0]['status']):
-            return False
-    return True
-
-def isPostMarketOpen():
-    date = datetime.today().strftime('%Y-%m-%d')
-   
-    d = requests.get("https://api.tradinghours.com/v3/markets/hours?fin_id=us.nyse&api_token="+trading_hours_token+"&date="+date).json()
-    if("Post-Trading Session" in d['data']['schedule'][5]['phase_type']):
-        if("Closed" in d['data']['schedule'][5]['status']):
-            return False
-    return True
     
 def getPositions():
     # Get a list of all of our positions.

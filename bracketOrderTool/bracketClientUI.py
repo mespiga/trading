@@ -23,7 +23,7 @@ from guizero import App, Text, Box, PushButton, TextBox
 import sys, os, time
 from datetime import datetime
 from model.OrderDatabase import OrderDatabase
-from lib.stopLoss import commitOrder, isPreMarketOpen, isPostMarketOpen, isMarketOpen, isAfterHoursOpen
+from lib.stopLoss import commitOrder, isAfterHoursOpen
 import alpaca_trade_api as tradeapi
 import requests
 
@@ -302,12 +302,8 @@ def validateNumber(num):
 def counter():
     global extendedHours, app
 
-    if(isPreMarketOpen()):
-        extendedHours.value = "Pre-Market Open"
-    elif(isPostMarketOpen()):
-        extendedHours.value = "Post-Market Open"
-    elif(isMarketOpen()):
-        extendedHours.value = "Market Open"
+    if(isAfterHoursOpen()):
+        extendedHours.value = "After Hours Open"
     else:
         extendedHours.value = "Market Close"
 
